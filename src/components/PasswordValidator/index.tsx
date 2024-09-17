@@ -1,13 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import UploadDropzone from '../UploadDropzone';
 import validateFileContent from '../../utils/validateFileContent';
-
-type PasswordRule = {
-  ruleSymbol: string;
-  minCount: number;
-  maxCount: number;
-  password: string;
-};
+import { PasswordRule } from '../../models/passwordRule';
 
 interface PasswordValidatorProps {
   setValidPasswordsCount: Dispatch<SetStateAction<number | null>>;
