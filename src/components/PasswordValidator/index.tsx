@@ -1,4 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
+import Dropzone from 'react-dropzone';
+import UploadDropzone from '../UploadDropzone';
 
 type PasswordRule = {
   ruleSymbol: string;
@@ -47,10 +49,9 @@ const PasswordValidator = ({
     return result;
   };
 
-  const handleFileUploadRead = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
+  const handleFileRead = (file: File) => {
+    // // const file = e.target.files?.[0];
+    // if (!file) return;
     const reader = new FileReader();
     reader.onload = event => {
       const content = event.target?.result;
@@ -65,7 +66,8 @@ const PasswordValidator = ({
   };
   return (
     <div>
-      <input type="file" onChange={handleFileUploadRead} accept=".txt" />
+      {/* <input type="file" onChange={handleFileUploadRead} accept=".txt" /> */}
+      <UploadDropzone handleFileRead={handleFileRead} />
     </div>
   );
 };
