@@ -25,6 +25,13 @@ const PasswordValidator = () => {
     return symbolCount >= minCount && symbolCount <= maxCount;
   };
 
+  const countValidPasswords = (arrRules: PasswordRule[]) => {
+    const validCount = arrRules.reduce((count, rule) => {
+      return rule && isValidPassword(rule) ? count + 1 : count;
+    }, 0);
+    setValidPasswordsCount(validCount);
+  };
+
   const parseLine = (line: string): PasswordRule => {
     const [rule, password] = line.split(': ');
     const [ruleSymbol, ruleRange] = rule.split(' ');
@@ -48,6 +55,7 @@ const PasswordValidator = () => {
       if (typeof content === 'string') {
         const lines = content.trim().split('\n');
         const parsedLines = lines.map(line => parseLine(line));
+        countValidPasswords(parsedLines);
       }
     };
 
