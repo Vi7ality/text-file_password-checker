@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 type PasswordRule = {
-  symbol: string;
+  ruleSymbol: string;
   minCount: number;
   maxCount: number;
   password: string;
@@ -12,12 +12,25 @@ const PasswordValidator = () => {
     null
   );
 
+  const isValidPassword = ({
+    ruleSymbol,
+    minCount,
+    maxCount,
+    password,
+  }: PasswordRule) => {
+    const symbolArray = password.split('');
+    const symbolCount = symbolArray.filter(
+      symbol => symbol === ruleSymbol
+    ).length;
+    return symbolCount >= minCount && symbolCount <= maxCount;
+  };
+
   const parseLine = (line: string): PasswordRule => {
     const [rule, password] = line.split(': ');
-    const [symbol, ruleRange] = rule.split(' ');
+    const [ruleSymbol, ruleRange] = rule.split(' ');
     const [minCount, maxCount] = ruleRange.split('-').map(Number);
     const result = {
-      symbol: symbol,
+      ruleSymbol: ruleSymbol,
       minCount: minCount,
       maxCount: maxCount,
       password: password,
@@ -25,7 +38,7 @@ const PasswordValidator = () => {
     return result;
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUploadRead = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -34,16 +47,15 @@ const PasswordValidator = () => {
       const content = event.target?.result;
       if (typeof content === 'string') {
         const lines = content.trim().split('\n');
-        console.log('lines:', lines);
-        lines.forEach(line => parseLine(line));
+        const parsedLines = lines.map(line => parseLine(line));
       }
     };
+
     reader.readAsText(file);
   };
   return (
     <div>
-      <h1>Перевірка валідності паролів</h1>
-      <input type="file" onChange={handleFileUpload} accept=".txt" />
+      <input type="file" onChange={handleFileUploadRead} accept=".txt" />
       {validPasswordsCount !== null && (
         <p>Кількість валідних паролів: {validPasswordsCount}</p>
       )}

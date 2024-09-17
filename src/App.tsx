@@ -4,7 +4,7 @@ import PasswordValidator from './components/PasswordValidator';
 function App() {
   return (
     <>
-      <h1>Password validator</h1>
+      <h1>Перевірка валідності паролів</h1>
       <PasswordValidator />
     </>
   );
