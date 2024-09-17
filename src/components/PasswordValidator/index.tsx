@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 type PasswordRule = {
   ruleSymbol: string;
@@ -7,11 +7,13 @@ type PasswordRule = {
   password: string;
 };
 
-const PasswordValidator = () => {
-  const [validPasswordsCount, setValidPasswordsCount] = useState<number | null>(
-    null
-  );
+interface PasswordValidatorProps {
+  setValidPasswordsCount: Dispatch<SetStateAction<number | null>>;
+}
 
+const PasswordValidator = ({
+  setValidPasswordsCount,
+}: PasswordValidatorProps) => {
   const isValidPassword = ({
     ruleSymbol,
     minCount,
@@ -64,9 +66,6 @@ const PasswordValidator = () => {
   return (
     <div>
       <input type="file" onChange={handleFileUploadRead} accept=".txt" />
-      {validPasswordsCount !== null && (
-        <p>Кількість валідних паролів: {validPasswordsCount}</p>
-      )}
     </div>
   );
 };
