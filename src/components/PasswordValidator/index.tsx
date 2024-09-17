@@ -1,3 +1,10 @@
+type PasswordRule = {
+  symbol: string;
+  minCount: number;
+  maxCount: number;
+  password: string;
+};
+
 const PasswordValidator = () => {
   return (
     <div>
