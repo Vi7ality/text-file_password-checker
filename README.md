@@ -8,7 +8,7 @@ This is a simple password validation app that allows users to upload a `.txt` fi
 
 The app accepts `.txt` files only. Each line in the file should be formatted as follows:
 
-'<character> <min>-<max>: <password>'
+character min-max: password
 
 Where:
 - `<character>` is the character the rule is based on.
