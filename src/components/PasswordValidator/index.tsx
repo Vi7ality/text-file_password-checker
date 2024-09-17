@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
-import Dropzone from 'react-dropzone';
 import UploadDropzone from '../UploadDropzone';
+import validateFileContent from '../../utils/validateFileContent';
 
 type PasswordRule = {
   ruleSymbol: string;
@@ -11,10 +11,12 @@ type PasswordRule = {
 
 interface PasswordValidatorProps {
   setValidPasswordsCount: Dispatch<SetStateAction<number | null>>;
+  setLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 const PasswordValidator = ({
   setValidPasswordsCount,
+  setLoading,
 }: PasswordValidatorProps) => {
   const isValidPassword = ({
     ruleSymbol,
@@ -50,15 +52,20 @@ const PasswordValidator = ({
   };
 
   const handleFileRead = (file: File) => {
-    // // const file = e.target.files?.[0];
-    // if (!file) return;
     const reader = new FileReader();
     reader.onload = event => {
+      setLoading(true);
       const content = event.target?.result;
-      if (typeof content === 'string') {
+      if (typeof content === 'string' && validateFileContent(content)) {
         const lines = content.trim().split('\n');
         const parsedLines = lines.map(line => parseLine(line));
         countValidPasswords(parsedLines);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        alert(
+          'The uploaded file has an invalid structure. Please check the file and try again.'
+        );
       }
     };
 

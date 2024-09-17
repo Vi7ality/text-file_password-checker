@@ -7,12 +7,16 @@ interface UploadDropzoneProps {
 
 const UploadDropzone = ({ handleFileRead }: UploadDropzoneProps) => {
   return (
-    <Dropzone onDrop={acceptedFiles => handleFileRead(acceptedFiles[0])}>
+    <Dropzone
+      onDrop={acceptedFiles => handleFileRead(acceptedFiles[0])}
+      accept={{ 'text/plain': ['.txt'] }}
+      maxFiles={1}
+    >
       {({ getRootProps, getInputProps }) => (
         <section className={styles.dropzone}>
           <div {...getRootProps()}>
-            <input {...getInputProps()} />
-            <p>Drag 'n' drop some files here, or click to select files</p>
+            <input {...getInputProps()} accept=".txt" />
+            <p>Drag 'n' drop .txt file here, or click to select file</p>
           </div>
         </section>
       )}
