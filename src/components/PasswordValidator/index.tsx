@@ -12,6 +12,19 @@ const PasswordValidator = () => {
     null
   );
 
+  const parseLine = (line: string): PasswordRule => {
+    const [rule, password] = line.split(': ');
+    const [symbol, ruleRange] = rule.split(' ');
+    const [minCount, maxCount] = ruleRange.split('-').map(Number);
+    const result = {
+      symbol: symbol,
+      minCount: minCount,
+      maxCount: maxCount,
+      password: password,
+    };
+    return result;
+  };
+
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -22,6 +35,7 @@ const PasswordValidator = () => {
       if (typeof content === 'string') {
         const lines = content.trim().split('\n');
         console.log('lines:', lines);
+        lines.forEach(line => parseLine(line));
       }
     };
     reader.readAsText(file);
