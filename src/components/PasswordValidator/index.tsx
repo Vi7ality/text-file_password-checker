@@ -6,11 +6,13 @@ import { PasswordRule } from '../../models/passwordRule';
 interface PasswordValidatorProps {
   setValidPasswordsCount: Dispatch<SetStateAction<number | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
+  setErrMessage: Dispatch<SetStateAction<string | null>>;
 }
 
 const PasswordValidator = ({
   setValidPasswordsCount,
   setLoading,
+  setErrMessage,
 }: PasswordValidatorProps) => {
   const isValidPassword = ({
     ruleSymbol,
@@ -54,11 +56,12 @@ const PasswordValidator = ({
         const lines = content.trim().split('\n');
         const parsedLines = lines.map(line => parseLine(line));
         countValidPasswords(parsedLines);
+        setErrMessage(null);
         setLoading(false);
       } else {
         setLoading(false);
-        alert(
-          'The uploaded file has an invalid structure. Please check the file and try again.'
+        setErrMessage(
+          'Завантажений файл має невалідну структуру. Спробуйте інший.'
         );
       }
     };
@@ -67,7 +70,6 @@ const PasswordValidator = ({
   };
   return (
     <div>
-      {/* <input type="file" onChange={handleFileUploadRead} accept=".txt" /> */}
       <UploadDropzone handleFileRead={handleFileRead} />
     </div>
   );
