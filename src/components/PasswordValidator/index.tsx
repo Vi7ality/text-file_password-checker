@@ -51,6 +51,7 @@ const PasswordValidator = ({
     const reader = new FileReader();
     reader.onload = event => {
       setLoading(true);
+      setValidPasswordsCount(null);
       const content = event.target?.result;
       if (typeof content === 'string' && validateFileContent(content)) {
         const lines = content.trim().split('\n');
