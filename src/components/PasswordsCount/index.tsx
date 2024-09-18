@@ -1,3 +1,5 @@
+import styles from './PasswordsCount.module.scss';
+
 interface PasswordsCounterProps {
   passwordsCount: number;
 }
@@ -5,7 +7,9 @@ interface PasswordsCounterProps {
 const PasswordsCounter = ({ passwordsCount }: PasswordsCounterProps) => {
   return (
     <>
-      <p>Кількість валідних паролів: {passwordsCount}</p>
+      <p className={styles.counter}>
+        Кількість валідних паролів: {passwordsCount}
+      </p>
     </>
   );
 };
